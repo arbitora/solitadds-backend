@@ -44,10 +44,21 @@ if __name__ == "__main__":
 
     odf = data_helper.import_operative_data(input_file_operative)
     udf = data_helper.import_usage_data(input_file_usage)
+    
+    odf["createdMonth"] = odf["createdDate"].dt.month
+    
+    nApplicationsMonth = range(12)
+    for i in range(12):
+        nApplicationsMonth[i] = len(odf[odf['createdMonth'] == (i + 1)])
+    
+    width = 1/1.5
+    color = "blue"
+    plt.bar([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], nApplicationsMonth, width=1.0, color="blue")
 
     print("Total number of apps: {}".format(len(odf)))
     print("Total number of events: {} with time range from {} to {} ".format(len(udf), udf['datetime'].min(), udf['datetime'].max()))
 
+    
     application_summary =  analyze.summarize_applications(odf, udf)
     application_summary.to_csv(output_file_applications, sep=';', encoding='utf-8')
     

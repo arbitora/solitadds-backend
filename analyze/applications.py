@@ -92,3 +92,4 @@ def count_days(app, from_date_name, till_date_name):
         return None
     else:
         return int(delta.days + 1)
+
